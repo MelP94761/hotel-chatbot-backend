@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HolaNola AI — AI Concierge for Caribbean Hotels</title>
+<meta name="description" content="HolaNola AI gives Caribbean hotels a 24/7 AI concierge that speaks Spanish and English, handles guest inquiries instantly, and never misses a booking.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0F6E56;--teal-m:#1D9E75;--teal-l:#E1F5EE;--teal-d:#085041;--teal-xd:#04342C;
+  --amber:#BA7517;--amber-l:#FAEEDA;
+  --dark:#0A1F18;--dark-2:#112A20;--dark-3:#1A3828;
+  --white:#FFFFFF;--off:#F7FAF9;
+  --gray:#64748B;--gray-l:#EEF2F0;
+  --font-h:'Playfair Display',Georgia,serif;
+  --font-b:'DM Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);color:var(--dark);background:var(--white);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:68px;transition:background .3s,box-shadow .3s}
+nav.scrolled{background:rgba(10,31,24,0.97);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,0.3)}
+.nav-logo{font-family:var(--font-h);font-size:22px;color:var(--white);font-weight:600;letter-spacing:0.01em;text-decoration:none}
+.nav-logo span{color:var(--teal-m)}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:14px;font-weight:400;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-lang{display:flex;background:rgba(255,255,255,0.1);border-radius:20px;padding:3px;gap:2px}
+.nav-lang button{padding:4px 12px;border-radius:16px;border:none;background:transparent;color:rgba(255,255,255,0.65);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font-b);transition:all .18s}
+.nav-lang button.on{background:var(--teal);color:white}
+.nav-cta{padding:9px 22px;background:var(--teal);color:white;border-radius:24px;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;border:none;cursor:pointer;font-family:var(--font-b)}
+.nav-cta:hover{background:var(--teal-d);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:22px;height:2px;background:white;border-radius:2px;transition:all .3s}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:var(--dark);position:relative;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(15,110,86,0.25) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(29,158,117,0.12) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%)}
+.hero-content{position:relative;z-index:2;padding:0 5%;width:100%;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding-top:68px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.3);border-radius:24px;padding:6px 16px;font-size:12px;color:var(--teal-m);font-weight:500;letter-spacing:0.05em;margin-bottom:24px}
+.hero-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:#22C55E;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
+.hero-h1{font-family:var(--font-h);font-size:clamp(38px,5vw,62px);color:var(--white);line-height:1.1;font-weight:400;margin-bottom:20px}
+.hero-h1 em{font-style:italic;color:var(--teal-m)}
+.hero-sub{font-size:17px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:36px;font-weight:300;max-width:480px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{padding:14px 32px;background:var(--teal);color:white;border-radius:32px;text-decoration:none;font-size:15px;font-weight:500;transition:all .25s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:var(--font-b)}
+.btn-primary:hover{background:var(--teal-d);transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,110,86,0.4)}
+.btn-secondary{padding:14px 32px;background:transparent;color:white;border-radius:32px;text-decoration:none;font-size:15px;font-weight:400;transition:all .25s;border:1px solid rgba(255,255,255,0.25);display:inline-flex;align-items:center;gap:8px}
+.btn-secondary:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.4)}
+.hero-stats{display:flex;gap:32px;margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,0.08)}
+.hero-stat-n{font-family:var(--font-h);font-size:28px;color:var(--teal-m);font-weight:600}
+.hero-stat-l{font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px}
+
+/* Phone mockup */
+.hero-phone{position:relative;display:flex;justify-content:center;align-items:center}
+.phone-frame{width:300px;background:var(--dark-2);border-radius:36px;border:2px solid rgba(255,255,255,0.08);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.phone-notch{height:28px;background:var(--dark-3);display:flex;align-items:center;justify-content:center}
+.phone-notch-bar{width:80px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px}
+.phone-chat-header{background:var(--dark-xd);padding:12px 16px;display:flex;align-items:center;gap:10px}
+.phone-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal-m));display:flex;align-items:center;justify-content:center;font-family:var(--font-h);font-size:14px;color:white;font-weight:600;position:relative}
+.phone-online{position:absolute;bottom:0;right:0;width:9px;height:9px;border-radius:50%;background:#22C55E;border:2px solid var(--dark-xd)}
+.phone-hotel-name{font-size:13px;font-weight:500;color:white}
+.phone-status{font-size:10px;color:var(--teal-m)}
+.phone-messages{padding:12px;background:var(--dark-2);display:flex;flex-direction:column;gap:8px;min-height:320px}
+.pm{max-width:85%;padding:8px 12px;border-radius:12px;font-size:11.5px;line-height:1.5;animation:msgPop .3s ease-out both}
+@keyframes msgPop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.pm.bot{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);border-radius:4px 12px 12px 12px;align-self:flex-start}
+.pm.user{background:var(--teal);color:white;border-radius:12px 4px 12px 12px;align-self:flex-end}
+.pm-time{font-size:9px;color:rgba(255,255,255,0.35);margin-top:3px;text-align:right}
+.phone-input{background:var(--dark-3);padding:10px 12px;display:flex;align-items:center;gap:8px}
+.phone-input-bar{flex:1;background:rgba(255,255,255,0.06);border-radius:18px;padding:7px 12px;font-size:11px;color:rgba(255,255,255,0.4)}
+.phone-send{width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center}
+
+/* Glow behind phone */
+.phone-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(29,158,117,0.2) 0%,transparent 70%);z-index:-1;top:50%;left:50%;transform:translate(-50%,-50%)}
+
+/* ── SECTIONS ── */
+section{padding:100px 5%}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-tag{display:inline-block;font-size:11px;font-weight:500;letter-spacing:0.1em;color:var(--teal);text-transform:uppercase;margin-bottom:16px}
+.section-h{font-family:var(--font-h);font-size:clamp(28px,4vw,44px);line-height:1.2;margin-bottom:16px;font-weight:400}
+.section-sub{font-size:16px;color:var(--gray);line-height:1.7;max-width:560px}
+
+/* ── LOGOS ── */
+.logos{background:var(--off);padding:40px 5%;border-top:1px solid var(--gray-l);border-bottom:1px solid var(--gray-l)}
+.logos-inner{max-width:1200px;margin:0 auto;text-align:center}
+.logos-label{font-size:12px;color:var(--gray);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:24px}
+.logos-row{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;opacity:0.45}
+.logo-item{font-family:var(--font-h);font-size:18px;color:var(--dark);font-weight:600;letter-spacing:0.02em}
+
+/* ── HOW IT WORKS ── */
+.how{background:var(--white)}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:60px}
+.step-card{position:relative;padding:36px 28px;border-radius:20px;border:1px solid var(--gray-l);transition:all .3s;overflow:hidden}
+.step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal-m));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.step-card:hover{border-color:var(--teal-l);box-shadow:0 12px 40px rgba(15,110,86,0.08);transform:translateY(-4px)}
+.step-card:hover::before{transform:scaleX(1)}
+.step-num{font-family:var(--font-h);font-size:56px;color:var(--teal-l);font-weight:600;line-height:1;margin-bottom:16px}
+.step-title{font-size:18px;font-weight:500;margin-bottom:10px;color:var(--dark)}
+.step-body{font-size:14px;color:var(--gray);line-height:1.7}
+.step-tag{display:inline-block;background:var(--teal-l);color:var(--teal-d);font-size:11px;font-weight:500;padding:3px 10px;border-radius:12px;margin-top:14px}
+
+/* ── FEATURES ── */
+.features{background:var(--dark);padding:100px 5%}
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:60px}
+.feat-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:28px;transition:all .3s}
+.feat-card:hover{background:rgba(255,255,255,0.07);border-color:rgba(29,158,117,0.3);transform:translateY(-2px)}
+.feat-card.wide{grid-column:span 2}
+.feat-icon{width:44px;height:44px;border-radius:12px;background:rgba(29,158,117,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.feat-icon svg{width:22px;height:22px}
+.feat-title{font-size:16px;font-weight:500;color:white;margin-bottom:8px}
+.feat-body{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7}
+
+/* ── PRICING ── */
+.pricing{background:var(--off)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.price-card{background:var(--white);border-radius:20px;border:1px solid var(--gray-l);overflow:hidden;transition:all .3s}
+.price-card:hover{box-shadow:0 20px 60px rgba(15,110,86,0.12);transform:translateY(-4px)}
+.price-card.featured{border-color:var(--teal);border-width:2px;transform:translateY(-8px)}
+.price-card.featured:hover{transform:translateY(-12px)}
+.price-head{padding:28px 28px 20px}
+.price-badge{display:inline-block;background:var(--teal);color:white;font-size:11px;font-weight:500;padding:3px 10px;border-radius:12px;margin-bottom:14px}
+.price-name{font-size:13px;font-weight:500;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em}
+.price-amount{font-family:var(--font-h);font-size:42px;color:var(--dark);font-weight:600;line-height:1}
+.price-amount span{font-size:16px;color:var(--gray);font-family:var(--font-b);font-weight:400}
+.price-target{font-size:13px;color:var(--gray);margin-top:8px}
+.price-body{padding:0 28px 28px;border-top:1px solid var(--gray-l)}
+.price-feats{list-style:none;padding:20px 0 24px}
+.price-feats li{font-size:13px;color:var(--dark);padding:6px 0;display:flex;align-items:center;gap:10px}
+.price-feats li::before{content:'';width:16px;height:16px;border-radius:50%;background:var(--teal-l);flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='%230F6E56' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+.price-btn{display:block;text-align:center;padding:13px;border-radius:12px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s;font-family:var(--font-b);cursor:pointer;border:none}
+.price-btn.outline{border:1.5px solid var(--teal);color:var(--teal);background:transparent}
+.price-btn.outline:hover{background:var(--teal);color:white}
+.price-btn.solid{background:var(--teal);color:white}
+.price-btn.solid:hover{background:var(--teal-d)}
+.price-note{font-size:11px;color:var(--gray);text-align:center;margin-top:10px}
+
+/* ── TESTIMONIAL ── */
+.testimonial{background:var(--teal);padding:80px 5%}
+.testimonial-inner{max-width:800px;margin:0 auto;text-align:center}
+.quote-mark{font-family:var(--font-h);font-size:80px;color:rgba(255,255,255,0.2);line-height:1;margin-bottom:-20px}
+.quote-text{font-family:var(--font-h);font-size:clamp(20px,3vw,28px);color:white;line-height:1.5;font-style:italic;margin-bottom:32px;font-weight:400}
+.quote-author{font-size:14px;color:rgba(255,255,255,0.7)}
+.quote-author strong{color:white;display:block;font-family:var(--font-b);font-weight:500;margin-bottom:2px}
+
+/* ── DEMO SECTION ── */
+.demo-section{background:var(--dark-2);padding:100px 5%}
+.demo-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.demo-text .section-h{color:white}
+.demo-text .section-sub{color:rgba(255,255,255,0.55)}
+.demo-points{margin-top:32px;display:flex;flex-direction:column;gap:16px}
+.demo-point{display:flex;align-items:flex-start;gap:14px}
+.dp-dot{width:10px;height:10px;border-radius:50%;background:var(--teal-m);flex-shrink:0;margin-top:5px}
+.dp-text h4{font-size:14px;font-weight:500;color:white;margin-bottom:3px}
+.dp-text p{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6}
+.demo-embed{background:var(--dark);border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 40px 80px rgba(0,0,0,0.4)}
+.demo-embed-header{background:var(--dark-3);padding:14px 18px;display:flex;align-items:center;gap:8px}
+.demo-dot{width:10px;height:10px;border-radius:50%}
+.demo-embed-inner{padding:20px;font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;min-height:200px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;text-align:center}
+.demo-embed-btn{padding:12px 28px;background:var(--teal);color:white;border-radius:24px;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;display:inline-block;margin-top:8px}
+.demo-embed-btn:hover{background:var(--teal-d)}
+
+/* ── CTA ── */
+.cta-section{background:var(--dark);padding:120px 5%;text-align:center;position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(15,110,86,0.2) 0%,transparent 70%)}
+.cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.cta-h{font-family:var(--font-h);font-size:clamp(32px,5vw,52px);color:white;line-height:1.15;margin-bottom:20px;font-weight:400}
+.cta-sub{font-size:16px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:40px}
+.cta-form{display:flex;gap:12px;max-width:440px;margin:0 auto}
+.cta-input{flex:1;padding:14px 20px;border-radius:32px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:white;font-size:14px;font-family:var(--font-b);outline:none;transition:border-color .2s}
+.cta-input::placeholder{color:rgba(255,255,255,0.35)}
+.cta-input:focus{border-color:var(--teal-m)}
+.cta-note{font-size:12px;color:rgba(255,255,255,0.3);margin-top:14px}
+
+/* ── FOOTER ── */
+footer{background:var(--dark-xd);padding:60px 5% 32px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand{font-family:var(--font-h);font-size:20px;color:white;margin-bottom:12px}
+.footer-brand span{color:var(--teal-m)}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.7;max-width:240px}
+.footer-col h4{font-size:12px;font-weight:500;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,0.55);text-decoration:none;margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--teal-m)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,0.3)}
+.footer-nola{color:rgba(255,255,255,0.2);font-style:italic}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;gap:40px;padding-top:100px;text-align:center}
+  .hero-sub{margin:0 auto 36px}
+  .hero-btns{justify-content:center}
+  .hero-stats{justify-content:center}
+  .hero-phone{display:none}
+  .steps-grid,.pricing-grid{grid-template-columns:1fr}
+  .price-card.featured{transform:none}
+  .features-grid{grid-template-columns:1fr}
+  .feat-card.wide{grid-column:span 1}
+  .demo-inner{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .cta-form{flex-direction:column}
+}
+
+/* ── ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* Mobile menu */
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--dark);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:var(--font-h);font-size:28px;color:white;text-decoration:none}
+.mobile-menu a:hover{color:var(--teal-m)}
+
+/* ── LEAD MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--white);border-radius:20px;padding:36px;max-width:440px;width:100%;position:relative}
+.modal-close{position:absolute;top:16px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray);line-height:1}
+.modal-h{font-family:var(--font-h);font-size:24px;margin-bottom:6px;color:var(--dark)}
+.modal-sub{font-size:13px;color:var(--gray);margin-bottom:20px;line-height:1.6}
+.modal-input{width:100%;padding:12px 16px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:14px;font-family:var(--font-b);margin-bottom:10px;outline:none;transition:border-color .2s;color:var(--dark);background:var(--white)}
+.modal-input:focus{border-color:var(--teal-m)}
+.modal-btn{width:100%;padding:14px;background:var(--teal);color:white;border:none;border-radius:12px;font-size:15px;font-weight:500;font-family:var(--font-b);cursor:pointer;transition:background .2s;margin-top:4px}
+.modal-btn:hover{background:var(--teal-d)}
+.modal-note{font-size:11px;color:var(--gray);text-align:center;margin-top:10px}
+.modal-or{text-align:center;font-size:13px;color:var(--gray);margin:14px 0}
+.modal-wa{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1.5px solid #25D366;border-radius:12px;color:#25D366;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+.modal-wa:hover{background:#25D366;color:white}
+</style>
+</head>
+<body>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#how" onclick="closeMobile()"><span id="m-how">How it works</span></a>
+  <a href="#features" onclick="closeMobile()"><span id="m-feat">Features</span></a>
+  <a href="#pricing" onclick="closeMobile()"><span id="m-price">Pricing</span></a>
+  <a href="#demo" onclick="closeMobile()"><span id="m-demo">Demo</span></a>
+  <button onclick="closeMobile();openModal('Mobile')" class="btn-primary">Get started</button>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">HolaNola<span>AI</span></a>
+  <div class="nav-links">
+    <a href="#how" id="nav-how">How it works</a>
+    <a href="#features" id="nav-feat">Features</a>
+    <a href="#pricing" id="nav-price">Pricing</a>
+    <a href="#demo" id="nav-demo">Demo</a>
+    <div class="nav-lang">
+      <button class="on" onclick="setLang('en')" id="ln-en">EN</button>
+      <button onclick="setLang('es')" id="ln-es">ES</button>
+    </div>
+    <button onclick="openModal('Nav')" class="nav-cta" id="nav-cta">Get started</button>
+  </div>
+  <div class="hamburger" onclick="toggleMobile()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-tag" id="h-tag">AI-powered · Available now in the Caribbean</div>
+      <h1 class="hero-h1" id="h-h1">Your hotel deserves a concierge that <em>never sleeps.</em></h1>
+      <p class="hero-sub" id="h-sub">HolaNola AI answers every guest message instantly — in Spanish and English — 24 hours a day. Never miss a booking again.</p>
+      <div class="hero-btns">
+        <button onclick="openModal('Hero')" class="btn-primary" id="h-btn1">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5C4.41 1.5 1.5 4.41 1.5 8c0 1.15.3 2.23.82 3.16L1.5 14.5l3.34-.82C5.77 14.2 6.85 14.5 8 14.5c3.59 0 6.5-2.91 6.5-6.5S11.59 1.5 8 1.5z" fill="white"/></svg>
+          Start free trial
+        </button>
+        <a href="#demo" class="btn-secondary" id="h-btn2">See it live →</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-n">24/7</div><div class="hero-stat-l" id="hs-1">Always available</div></div>
+        <div><div class="hero-stat-n">78%</div><div class="hero-stat-l" id="hs-2">Inquiries resolved</div></div>
+        <div><div class="hero-stat-n">&lt;4s</div><div class="hero-stat-l" id="hs-3">Response time</div></div>
+      </div>
+    </div>
+    <div class="hero-phone">
+      <div class="phone-glow"></div>
+      <div class="phone-frame">
+        <div class="phone-notch"><div class="phone-notch-bar"></div></div>
+        <div class="phone-chat-header">
+          <div class="phone-avatar">H<div class="phone-online"></div></div>
+          <div><div class="phone-hotel-name">Casa Colonial Beach & Spa</div><div class="phone-status" id="ph-status">● Online · HolaNola AI</div></div>
+        </div>
+        <div class="phone-messages" id="phone-msgs">
+          <div class="pm bot" style="animation-delay:.3s" id="pm1">Welcome! 🌴 How can I help you today?</div>
+          <div class="pm user" style="animation-delay:.8s" id="pm2">Do you have ocean view rooms?</div>
+          <div class="pm bot" style="animation-delay:1.4s" id="pm3">Yes! Superior Ocean View from $249/night. Shall I check availability?</div>
+          <div class="pm user" style="animation-delay:2s" id="pm4">Dec 20–25, 2 guests</div>
+          <div class="pm bot" style="animation-delay:2.6s" id="pm5">Available ✓ Total $1,245 for 5 nights. Ready to confirm? 🎉</div>
+        </div>
+        <div class="phone-input">
+          <div class="phone-input-bar" id="ph-placeholder">Type a message...</div>
+          <div class="phone-send">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10.5 6L1.5 1.5L4 6L1.5 10.5L10.5 6Z" fill="white"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos">
+  <div class="logos-inner">
+    <div class="logos-label" id="logo-label">Trusted by hotels across the Dominican Republic</div>
+    <div class="logos-row">
+      <div class="logo-item">Punta Cana Resort</div>
+      <div class="logo-item">Casa de Campo</div>
+      <div class="logo-item">Samaná Bay Hotel</div>
+      <div class="logo-item">Playa Bávaro Inn</div>
+      <div class="logo-item">Las Terrenas Boutique</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <div class="fade-up">
+      <div class="section-tag" id="how-tag">How it works</div>
+      <h2 class="section-h" id="how-h">Live in 24 hours.<br>No tech team needed.</h2>
+      <p class="section-sub" id="how-sub">We handle the entire setup. You approve the content. Your guests start getting instant replies the same day.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card fade-up" style="transition-delay:.1s">
+        <div class="step-num">01</div>
+        <div class="step-title" id="s1-t">Tell us about your hotel</div>
+        <div class="step-body" id="s1-b">30-minute onboarding call. We learn your rooms, pricing, amenities, and tours. You review and approve every response before going live.</div>
+        <div class="step-tag" id="s1-tag">30 min call</div>
+      </div>
+      <div class="step-card fade-up" style="transition-delay:.2s">
+        <div class="step-num">02</div>
+        <div class="step-title" id="s2-t">We connect your channels</div>
+        <div class="step-body" id="s2-b">WhatsApp Business, your website, and anywhere guests message you. One connection. Works everywhere your guests already are.</div>
+        <div class="step-tag" id="s2-tag">10 min setup</div>
+      </div>
+      <div class="step-card fade-up" style="transition-delay:.3s">
+        <div class="step-num">03</div>
+        <div class="step-title" id="s3-t">Watch the bookings come in</div>
+        <div class="step-body" id="s3-b">Your dashboard shows every conversation. Jump in anytime — HolaNola AI steps aside instantly when you do. Weekly reports on bookings recovered.</div>
+        <div class="step-tag" id="s3-tag">Always in control</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <div class="fade-up">
+      <div class="section-tag" style="color:var(--teal-m)" id="feat-tag">Features</div>
+      <h2 class="section-h" style="color:white" id="feat-h">Everything your hotel needs.<br>Nothing you don't.</h2>
+    </div>
+    <div class="features-grid" style="margin-top:60px">
+      <div class="feat-card fade-up wide" style="transition-delay:.1s">
+        <div class="feat-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round"><path d="M11 2C6.03 2 2 6.03 2 11c0 1.54.4 2.99 1.1 4.24L2 20l4.76-1.1A8.96 8.96 0 0011 20c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+        </div>
+        <div class="feat-title" id="f1-t">WhatsApp-native — where your guests already are</div>
+        <div class="feat-body" id="f1-b">89% of Dominican Republic residents use WhatsApp daily. HolaNola AI lives inside WhatsApp, your website, and any channel your guests use — no app downloads, no friction, instant conversations.</div>
+      </div>
+      <div class="feat-card fade-up" style="transition-delay:.2s">
+        <div class="feat-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="9"/><path d="M11 7v4l3 3"/></svg>
+        </div>
+        <div class="feat-title" id="f2-t">24/7 — including 2am</div>
+        <div class="feat-body" id="f2-b">35% of guest inquiries arrive after 10pm. HolaNola AI answers every single one instantly, recovering bookings your team would have missed while sleeping.</div>
+      </div>
+      <div class="feat-card fade-up" style="transition-delay:.3s">
+        <div class="feat-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="feat-title" id="f3-t">Spanish & English — fluently</div>
+        <div class="feat-body" id="f3-b">Responds naturally in whichever language your guest uses. English and Spanish are fully supported, with French available on the Growth plan and above.</div>
+      </div>
+      <div class="feat-card fade-up" style="transition-delay:.4s">
+        <div class="feat-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round"><path d="M3 3h18v13H3zM8 20h8M12 16v4"/></svg>
+        </div>
+        <div class="feat-title" id="f4-t">Real-time dashboard</div>
+        <div class="feat-body" id="f4-b">See every conversation, jump in anytime, review weekly booking recovery reports. You're always in control — the AI steps aside the moment you join.</div>
+      </div>
+      <div class="feat-card fade-up" style="transition-delay:.5s">
+        <div class="feat-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="feat-title" id="f5-t">Built-in upselling</div>
+        <div class="feat-body" id="f5-b">Suggests room upgrades, breakfast packages, spa treatments, and excursions naturally during conversation. Hotels see an average 23% lift in upsell conversion.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<div class="testimonial">
+  <div class="testimonial-inner fade-up">
+    <div class="quote-mark">"</div>
+    <p class="quote-text" id="quote-text">Before HolaNola AI, I was answering WhatsApp at 2am every night. Now the system handles everything after hours — and recovered three bookings in the first week I would have missed. I sleep better and my revenue is up.</p>
+    <div class="quote-author">
+      <strong id="quote-name">General Manager</strong>
+      <span id="quote-hotel">Boutique Hotel — Samaná, Dominican Republic</span>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <div class="fade-up" style="text-align:center">
+      <div class="section-tag" id="price-tag">Pricing</div>
+      <h2 class="section-h" id="price-h">Simple, honest pricing.<br>Cancel anytime.</h2>
+      <p class="section-sub" style="margin:0 auto" id="price-sub">A full-time front desk agent costs $450–600/month and works 8 hours. HolaNola AI works 24/7 from $149/month.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card fade-up" style="transition-delay:.1s">
+        <div class="price-head">
+          <div class="price-name" id="p1-name">Starter</div>
+          <div class="price-amount">$149<span id="p1-per">/month</span></div>
+          <div class="price-target" id="p1-target">Best for boutique hotels & B&Bs</div>
+        </div>
+        <div class="price-body">
+          <ul class="price-feats" id="p1-feats">
+            <li>500 conversations/month</li>
+            <li>Spanish + English</li>
+            <li>WhatsApp integration</li>
+            <li>FAQ builder</li>
+            <li>Basic analytics</li>
+            <li>Email support</li>
+          </ul>
+          <button onclick="openModal('Starter')" class="price-btn outline" id="p1-btn">Get started</button>
+          <div class="price-note" id="p1-note">60-day free trial · No credit card</div>
+        </div>
+      </div>
+      <div class="price-card featured fade-up" style="transition-delay:.2s">
+        <div class="price-head">
+          <div class="price-badge" id="p2-badge">Most popular</div>
+          <div class="price-name" id="p2-name">Growth</div>
+          <div class="price-amount">$399<span id="p2-per">/month</span></div>
+          <div class="price-target" id="p2-target">Best for mid-size hotels</div>
+        </div>
+        <div class="price-body">
+          <ul class="price-feats" id="p2-feats">
+            <li>3,000 conversations/month</li>
+            <li>Spanish, English, French</li>
+            <li>WhatsApp + web widget</li>
+            <li>Custom branding</li>
+            <li>Upsell flow builder</li>
+            <li>PMS integration</li>
+            <li>Priority support</li>
+          </ul>
+          <button onclick="openModal('Growth')" class="price-btn solid" id="p2-btn">Get started</button>
+          <div class="price-note" id="p2-note">60-day free trial · No credit card</div>
+        </div>
+      </div>
+      <div class="price-card fade-up" style="transition-delay:.3s">
+        <div class="price-head">
+          <div class="price-name" id="p3-name">Enterprise</div>
+          <div class="price-amount" style="font-size:32px" id="p3-amount">Custom</div>
+          <div class="price-target" id="p3-target">All-inclusive resorts & chains</div>
+        </div>
+        <div class="price-body">
+          <ul class="price-feats" id="p3-feats">
+            <li>Unlimited conversations</li>
+            <li>All languages</li>
+            <li>Full PMS/CRM integration</li>
+            <li>Custom AI training</li>
+            <li>Multi-property dashboard</li>
+            <li>Dedicated account manager</li>
+            <li>99.9% SLA guarantee</li>
+          </ul>
+          <button onclick="openModal('Enterprise')" class="price-btn outline" id="p3-btn">Contact us</button>
+          <div class="price-note" id="p3-note">Dedicated video onboarding included</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO SECTION -->
+<section class="demo-section" id="demo">
+  <div class="demo-inner">
+    <div class="demo-text fade-up">
+      <div class="section-tag" style="color:var(--teal-m)" id="demo-tag">Live demo</div>
+      <h2 class="section-h" id="demo-h">See HolaNola AI in action.</h2>
+      <p class="section-sub" id="demo-sub">Try it yourself. Ask about room availability, check-in times, tours, or anything a real guest would ask. This is exactly what your guests will experience.</p>
+      <div class="demo-points">
+        <div class="demo-point">
+          <div class="dp-dot"></div>
+          <div class="dp-text">
+            <h4 id="dp1-t">Responds in under 4 seconds</h4>
+            <p id="dp1-b">Faster than any front desk. Even at 3am.</p>
+          </div>
+        </div>
+        <div class="demo-point">
+          <div class="dp-dot"></div>
+          <div class="dp-text">
+            <h4 id="dp2-t">Toggle between English and Spanish</h4>
+            <p id="dp2-b">Switch between English and Spanish instantly — fully native in each language.</p>
+          </div>
+        </div>
+        <div class="demo-point">
+          <div class="dp-dot"></div>
+          <div class="dp-text">
+            <h4 id="dp3-t">Trained on your hotel's real details</h4>
+            <p id="dp3-b">Not a generic bot — knows your rooms, pricing, and tours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-embed fade-up" style="transition-delay:.2s;overflow:hidden;border-radius:24px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 40px 80px rgba(0,0,0,0.4)">
+      <div class="demo-embed-header">
+        <div class="demo-dot" style="background:#E24B4A"></div>
+        <div class="demo-dot" style="background:#EF9F27;margin-left:6px"></div>
+        <div class="demo-dot" style="background:#22C55E;margin-left:6px"></div>
+        <span style="font-size:12px;color:rgba(255,255,255,0.3);margin-left:12px">holanolaai.com - live</span>
+      </div>
+      <div style="background:#04342C;padding:12px 16px;display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0F6E56,#1D9E75);display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:15px;position:relative;flex-shrink:0">H<span style="position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:#22C55E;border:2px solid #04342C"></span></div>
+        <div><div style="font-size:13px;font-weight:500;color:white">Casa Colonial Beach & Spa</div><div style="font-size:11px;color:#1D9E75">Online - HolaNola AI</div></div>
+      </div>
+      <div id="hn-messages" style="height:260px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#0D1F1A">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px">
+          <div style="max-width:85%;padding:8px 12px;border-radius:4px 12px 12px 12px;font-size:12.5px;line-height:1.55;background:rgba(255,255,255,0.09);color:rgba(255,255,255,0.9)">Welcome to Casa Colonial Beach & Spa! I am your AI concierge, here to assist you 24 hours a day in Spanish or English.<br><br>How can I assist you today?</div>
+        </div>
+      </div>
+      <div id="hn-qr" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;background:#0D1F1A;border-top:1px solid rgba(255,255,255,0.05);min-height:38px">
+        <button type="button" onclick="hnQuick('Room availability')" style="padding:6px 13px;border-radius:16px;border:1px solid rgba(29,158,117,0.4);background:rgba(29,158,117,0.08);color:#1D9E75;font-size:11.5px;cursor:pointer;font-family:inherit;margin:2px 2px 2px 0">Room availability</button>
+        <button type="button" onclick="hnQuick('Check-in times')" style="padding:6px 13px;border-radius:16px;border:1px solid rgba(29,158,117,0.4);background:rgba(29,158,117,0.08);color:#1D9E75;font-size:11.5px;cursor:pointer;font-family:inherit;margin:2px 2px 2px 0">Check-in times</button>
+        <button type="button" onclick="hnQuick('Tours and excursions')" style="padding:6px 13px;border-radius:16px;border:1px solid rgba(29,158,117,0.4);background:rgba(29,158,117,0.08);color:#1D9E75;font-size:11.5px;cursor:pointer;font-family:inherit;margin:2px 2px 2px 0">Tours & excursions</button>
+        <button type="button" onclick="hnQuick('Airport transfer')" style="padding:6px 13px;border-radius:16px;border:1px solid rgba(29,158,117,0.4);background:rgba(29,158,117,0.08);color:#1D9E75;font-size:11.5px;cursor:pointer;font-family:inherit;margin:2px 2px 2px 0">Airport transfer</button>
+        <button type="button" onclick="hnQuick('Dining and room service')" style="padding:6px 13px;border-radius:16px;border:1px solid rgba(29,158,117,0.4);background:rgba(29,158,117,0.08);color:#1D9E75;font-size:11.5px;cursor:pointer;font-family:inherit;margin:2px 2px 2px 0">Dining & room service</button>
+        <button type="button" onclick="hnQuick('Spa and amenities')" style="padding:6px 13px;border-radius:16px;border:1px solid rgba(29,158,117,0.4);background:rgba(29,158,117,0.08);color:#1D9E75;font-size:11.5px;cursor:pointer;font-family:inherit;margin:2px 2px 2px 0">Spa & amenities</button>
+      </div>
+      <div style="padding:10px 12px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;align-items:center;background:#0D1F1A">
+        <input id="hn-input" type="text" placeholder="Type a message..." style="flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:8px 14px;font-size:13px;color:white;outline:none;font-family:inherit">
+        <button id="hn-send" type="button" style="width:36px;height:36px;border-radius:50%;background:#0F6E56;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12.5 7L1.5 2L4.5 7L1.5 12L12.5 7Z" fill="white"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-bg"></div>
+  <div class="cta-inner fade-up">
+    <h2 class="cta-h" id="cta-h">Ready to never miss a booking again?</h2>
+    <p class="cta-sub" id="cta-sub">Start your free 60-day trial. We set everything up. You approve the content. Go live in 24 hours.</p>
+    <form name="holanola-leads" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="lead-form" onsubmit="handleSubmit(event)" style="width:100%;max-width:480px;margin:0 auto">
+      <input type="hidden" name="form-name" value="holanola-leads">
+      <p style="display:none"><input name="bot-field"></p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:10px">
+        <input type="text" name="hotel" class="cta-input" placeholder="Hotel name" required style="flex:1;min-width:180px">
+        <input type="email" name="email" class="cta-input" id="cta-email" placeholder="your@email.com" required style="flex:1;min-width:180px">
+      </div>
+      <input type="tel" name="whatsapp" class="cta-input" placeholder="Your WhatsApp number" style="width:100%;margin-bottom:12px">
+      <button type="submit" class="btn-primary" id="cta-btn" style="width:100%;justify-content:center">
+        Start my free 60-day trial
+      </button>
+    </form>
+    <div class="cta-note" id="cta-note">No credit card required · 60-day free trial · Cancel anytime</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">HolaNola<span>AI</span></div>
+        <div class="footer-tagline" id="ft-tagline">AI concierge platform built for Caribbean hotels. Answering guest questions 24/7 in Spanish and English.</div>
+      </div>
+      <div class="footer-col">
+        <h4 id="fc1-h">Product</h4>
+        <a href="#how" id="fc1-1">How it works</a>
+        <a href="#features" id="fc1-2">Features</a>
+        <a href="#pricing" id="fc1-3">Pricing</a>
+        <a href="#demo" id="fc1-4">Live demo</a>
+      </div>
+      <div class="footer-col">
+        <h4 id="fc2-h">Company</h4>
+        <a href="#" id="fc2-1">About</a>
+        <a href="#contact" id="fc2-2">Contact</a>
+        <a href="#" id="fc2-3">Privacy policy</a>
+      </div>
+      <div class="footer-col">
+        <h4 id="fc3-h">Contact</h4>
+        <a href="mailto:melvin.s.pina@gmail.com">melvin.s.pina@gmail.com</a>
+        <a href="https://wa.me/13473440786" id="fc3-wa">WhatsApp us</a>
+        <a href="#" id="fc3-ig">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 HolaNola AI · <span id="f-rights">All rights reserved</span></div>
+      <div class="footer-nola" id="f-nola">In memory of Nola 🐾</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── LANGUAGE ──
+const T = {
+  en: {
+    'h-tag': 'AI-powered · Available now in the Caribbean',
+    'h-h1': 'Your hotel deserves a concierge that never sleeps.',
+    'h-sub': 'HolaNola AI answers every guest message instantly — in Spanish and English — 24 hours a day. Never miss a booking again.',
+    'h-btn1': 'Start free trial', 'h-btn2': 'See it live →',
+    'hs-1': 'Always available', 'hs-2': 'Inquiries resolved', 'hs-3': 'Response time',
+    'ph-status': '● Online · HolaNola AI',
+    'pm1': 'Welcome! 🌴 How can I help you today?',
+    'pm2': 'Do you have ocean view rooms?',
+    'pm3': 'Yes! Superior Ocean View from $249/night. Shall I check availability?',
+    'pm4': 'Dec 20–25, 2 guests',
+    'pm5': 'Available ✓ Total $1,245 for 5 nights. Ready to confirm? 🎉',
+    'ph-placeholder': 'Type a message...',
+    'logo-label': 'Trusted by hotels across the Dominican Republic',
+    'how-tag': 'How it works', 'how-h': 'Live in 24 hours.\nNo tech team needed.',
+    'how-sub': 'We handle the entire setup. You approve the content. Your guests start getting instant replies the same day.',
+    's1-t': 'Tell us about your hotel', 's1-b': '30-minute onboarding call. We learn your rooms, pricing, amenities, and tours. You review and approve every response before going live.', 's1-tag': '30 min call',
+    's2-t': 'We connect your channels', 's2-b': 'WhatsApp Business, your website, and anywhere guests message you. One connection. Works everywhere your guests already are.', 's2-tag': '10 min setup',
+    's3-t': 'Watch the bookings come in', 's3-b': 'Your dashboard shows every conversation. Jump in anytime — HolaNola AI steps aside instantly when you do. Weekly reports on bookings recovered.', 's3-tag': 'Always in control',
+    'feat-tag': 'Features', 'feat-h': 'Everything your hotel needs.\nNothing you don\'t.',
+    'f1-t': 'WhatsApp-native — where your guests already are', 'f1-b': '89% of Dominican Republic residents use WhatsApp daily. HolaNola AI lives inside WhatsApp, your website, and any channel your guests use — no app downloads, no friction, instant conversations.',
+    'f2-t': '24/7 — including 2am', 'f2-b': '35% of guest inquiries arrive after 10pm. HolaNola AI answers every single one instantly, recovering bookings your team would have missed while sleeping.',
+    'f3-t': 'Spanish & English — fluently', 'f3-b': 'Responds naturally in whichever language your guest uses. English and Spanish are fully supported, with French available on the Growth plan and above.',
+    'f4-t': 'Real-time dashboard', 'f4-b': 'See every conversation, jump in anytime, review weekly booking recovery reports. You\'re always in control — the AI steps aside the moment you join.',
+    'f5-t': 'Built-in upselling', 'f5-b': 'Suggests room upgrades, breakfast packages, spa treatments, and excursions naturally during conversation. Hotels see an average 23% lift in upsell conversion.',
+    'quote-text': 'Before HolaNola AI, I was answering WhatsApp at 2am every night. Now the system handles everything after hours — and recovered three bookings in the first week I would have missed. I sleep better and my revenue is up.',
+    'quote-name': 'General Manager', 'quote-hotel': 'Boutique Hotel — Samaná, Dominican Republic',
+    'price-tag': 'Pricing', 'price-h': 'Simple, honest pricing.\nCancel anytime.',
+    'price-sub': 'A full-time front desk agent costs $450–600/month and works 8 hours. HolaNola AI works 24/7 from $149/month.',
+    'p1-name': 'Starter', 'p1-per': '/month', 'p1-target': 'Best for boutique hotels & B&Bs',
+    'p1-btn': 'Get started', 'p1-note': '60-day free trial · No credit card',
+    'p2-badge': 'Most popular', 'p2-name': 'Growth', 'p2-per': '/month', 'p2-target': 'Best for mid-size hotels',
+    'p2-btn': 'Get started', 'p2-note': '60-day free trial · No credit card',
+    'p3-name': 'Enterprise', 'p3-amount': 'Custom', 'p3-target': 'All-inclusive resorts & chains',
+    'p3-btn': 'Contact us', 'p3-note': 'Dedicated video onboarding included',
+    'demo-tag': 'Live demo', 'demo-h': 'See HolaNola AI in action.',
+    'demo-sub': 'Try it yourself. Ask about room availability, check-in times, tours, or anything a real guest would ask.',
+    'demo-embed-text': 'Click below to open the live HolaNola AI demo in a new tab and try it yourself.',
+    'demo-btn': 'Open live demo →',
+    'dp1-t': 'Responds in under 4 seconds', 'dp1-b': 'Faster than any front desk. Even at 3am.',
+    'dp2-t': 'Toggle between English and Spanish', 'dp2-b': 'Switch between English and Spanish instantly — fully native in each language.',
+    'dp3-t': 'Trained on your hotel\'s real details', 'dp3-b': 'Not a generic bot — knows your rooms, pricing, and tours. Try: "I need a room for 5/18 - 5/26" or "Do you have spa?"',
+    'cta-h': 'Ready to never miss a booking again?',
+    'cta-sub': 'Start your free 60-day trial. We set everything up. You approve the content. Go live in 24 hours.',
+    'cta-btn': 'Get started', 'cta-note': 'No credit card required · 60-day free trial · Cancel anytime',
+    'ft-tagline': 'AI concierge platform built for Caribbean hotels. Answering guest questions 24/7 in Spanish and English.',
+    'fc1-h': 'Product', 'fc1-1': 'How it works', 'fc1-2': 'Features', 'fc1-3': 'Pricing', 'fc1-4': 'Live demo',
+    'fc2-h': 'Company', 'fc2-1': 'About', 'fc2-2': 'Contact', 'fc2-3': 'Privacy policy',
+    'fc3-h': 'Contact', 'fc3-wa': 'WhatsApp us', 'fc3-ig': 'Instagram',
+    'f-rights': 'All rights reserved', 'f-nola': 'In memory of Nola 🐾',
+    'nav-how': 'How it works', 'nav-feat': 'Features', 'nav-price': 'Pricing', 'nav-demo': 'Demo', 'nav-cta': 'Get started',
+  },
+  es: {
+    'h-tag': 'Con IA · Disponible ahora en el Caribe',
+    'h-h1': 'Su hotel merece un conserje que nunca duerme.',
+    'h-sub': 'HolaNola AI responde cada mensaje de huésped al instante — en español e inglés — las 24 horas del día. Nunca más pierda una reservación.',
+    'h-btn1': 'Prueba gratuita', 'h-btn2': 'Ver en vivo →',
+    'hs-1': 'Siempre disponible', 'hs-2': 'Consultas resueltas', 'hs-3': 'Tiempo de respuesta',
+    'ph-status': '● En línea · HolaNola AI',
+    'pm1': '¡Bienvenido! 🌴 ¿En qué puedo ayudarle hoy?',
+    'pm2': '¿Tienen habitaciones con vista al mar?',
+    'pm3': '¡Sí! Vista al Mar Superior desde $249/noche. ¿Verifico disponibilidad?',
+    'pm4': '20–25 dic, 2 huéspedes',
+    'pm5': 'Disponible ✓ Total $1,245 por 5 noches. ¿Confirmamos? 🎉',
+    'ph-placeholder': 'Escribe un mensaje...',
+    'logo-label': 'La confianza de hoteles en toda la República Dominicana',
+    'how-tag': 'Cómo funciona', 'how-h': 'En línea en 24 horas.\nSin necesidad de técnicos.',
+    'how-sub': 'Nosotros manejamos toda la configuración. Usted aprueba el contenido. Sus huéspedes empiezan a recibir respuestas el mismo día.',
+    's1-t': 'Cuéntenos sobre su hotel', 's1-b': 'Llamada de incorporación de 30 minutos. Aprendemos sus habitaciones, precios, amenidades y tours. Usted revisa y aprueba cada respuesta antes de activar.', 's1-tag': 'Llamada 30 min',
+    's2-t': 'Conectamos sus canales', 's2-b': 'WhatsApp Business, su sitio web y donde sea que sus huéspedes le escriban. Una sola conexión. Funciona donde sus huéspedes ya están.', 's2-tag': 'Configuración 10 min',
+    's3-t': 'Vea cómo llegan las reservaciones', 's3-b': 'Su panel muestra cada conversación. Intervenga cuando quiera — HolaNola AI cede el paso al instante. Reportes semanales de reservaciones recuperadas.', 's3-tag': 'Siempre en control',
+    'feat-tag': 'Funciones', 'feat-h': 'Todo lo que su hotel necesita.\nNada más.',
+    'f1-t': 'WhatsApp nativo — donde ya están sus huéspedes', 'f1-b': 'El 89% de los dominicanos usa WhatsApp a diario. HolaNola AI vive dentro de WhatsApp, su sitio web y cualquier canal que usen sus huéspedes — sin descargas, sin fricción.',
+    'f2-t': '24/7 — incluso a las 2am', 'f2-b': 'El 35% de las consultas llegan después de las 10pm. HolaNola AI responde cada una al instante, recuperando reservaciones que su equipo habría perdido mientras dormía.',
+    'f3-t': 'Español e inglés — con fluidez', 'f3-b': 'Responde naturalmente en el idioma que use su huésped. Español e inglés están totalmente disponibles, con francés en el plan Growth y superiores.',
+    'f4-t': 'Panel en tiempo real', 'f4-b': 'Vea cada conversación, intervenga cuando quiera, revise reportes semanales. Siempre está en control — la IA cede el paso en cuanto usted entra.',
+    'f5-t': 'Ventas adicionales integradas', 'f5-b': 'Sugiere mejoras de habitación, desayunos, spa y excursiones de forma natural durante la conversación. Los hoteles ven un aumento promedio del 23% en conversión.',
+    'quote-text': 'Antes de HolaNola AI, respondía WhatsApp a las 2am todas las noches. Ahora el sistema maneja todo fuera de horario — y recuperó tres reservaciones en la primera semana que habría perdido. Duermo mejor y mis ingresos han subido.',
+    'quote-name': 'Gerente General', 'quote-hotel': 'Hotel Boutique — Samaná, República Dominicana',
+    'price-tag': 'Precios', 'price-h': 'Precios simples y transparentes.\nCancele cuando quiera.',
+    'price-sub': 'Un recepcionista a tiempo completo cuesta $450–600/mes y trabaja 8 horas. HolaNola AI trabaja 24/7 desde $149/mes.',
+    'p1-name': 'Básico', 'p1-per': '/mes', 'p1-target': 'Ideal para hoteles boutique y B&Bs',
+    'p1-btn': 'Comenzar', 'p1-note': 'Prueba gratuita 60 días · Sin tarjeta',
+    'p2-badge': 'Más popular', 'p2-name': 'Crecimiento', 'p2-per': '/mes', 'p2-target': 'Ideal para hoteles medianos',
+    'p2-btn': 'Comenzar', 'p2-note': 'Prueba gratuita 60 días · Sin tarjeta',
+    'p3-name': 'Empresarial', 'p3-amount': 'A medida', 'p3-target': 'Resorts todo incluido y cadenas',
+    'p3-btn': 'Contáctenos', 'p3-note': 'Incorporación por video incluida',
+    'demo-tag': 'Demo en vivo', 'demo-h': 'Vea HolaNola AI en acción.',
+    'demo-sub': 'Pruébelo usted mismo. Pregunte sobre disponibilidad, horarios, tours o cualquier cosa que preguntaría un huésped real.',
+    'demo-embed-text': 'Haga clic abajo para abrir el demo en vivo de HolaNola AI en una nueva pestaña.',
+    'demo-btn': 'Abrir demo en vivo →',
+    'dp1-t': 'Responde en menos de 4 segundos', 'dp1-b': 'Más rápido que cualquier recepcionista. Incluso a las 3am.',
+    'dp2-t': 'Cambia entre inglés y español', 'dp2-b': 'Cambia entre inglés y español al instante — completamente natural en cada idioma.',
+    'dp3-t': 'Entrenado con los datos reales de su hotel', 'dp3-b': 'No es un bot genérico — conoce sus habitaciones, precios y tours. Pruebe: "Necesito una habitación del 18/5 al 26/5" o "¿Tienen spa?"',
+    'cta-h': '¿Listo para nunca más perder una reservación?',
+    'cta-sub': 'Inicie su prueba gratuita de 60 días. Nosotros configuramos todo. Usted aprueba el contenido. En línea en 24 horas.',
+    'cta-btn': 'Comenzar ahora', 'cta-note': 'Sin tarjeta de crédito · Prueba 60 días · Cancele cuando quiera',
+    'ft-tagline': 'Plataforma de conserje IA para hoteles caribeños. Respondiendo consultas 24/7 en español e inglés.',
+    'fc1-h': 'Producto', 'fc1-1': 'Cómo funciona', 'fc1-2': 'Funciones', 'fc1-3': 'Precios', 'fc1-4': 'Demo en vivo',
+    'fc2-h': 'Empresa', 'fc2-1': 'Nosotros', 'fc2-2': 'Contacto', 'fc2-3': 'Privacidad',
+    'fc3-h': 'Contacto', 'fc3-wa': 'Escríbenos por WhatsApp', 'fc3-ig': 'Instagram',
+    'f-rights': 'Todos los derechos reservados', 'f-nola': 'En memoria de Nola 🐾',
+    'nav-how': 'Cómo funciona', 'nav-feat': 'Funciones', 'nav-price': 'Precios', 'nav-demo': 'Demo', 'nav-cta': 'Comenzar',
+  }
+};
+
+let currentLang = 'en';
+
+function setLang(l) {
+  currentLang = l;
+  document.getElementById('ln-en').classList.toggle('on', l === 'en');
+  document.getElementById('ln-es').classList.toggle('on', l === 'es');
+  // Sync live demo language and reset conversation
+  if (window.hnResetDemo) window.hnResetDemo(l);
+  const t = T[l];
+  Object.keys(t).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t[id];
+  });
+}
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ── MOBILE MENU ──
+function toggleMobile() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMobile() {
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// ── SCROLL ANIMATIONS ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ── EMAIL SUBMIT ──
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('lead-form');
+  const btn = document.getElementById('cta-btn');
+  const data = new FormData(form);
+  fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(data).toString() })
+    .then(() => {
+      btn.textContent = currentLang === 'es' ? '¡Enviado! Le contactaremos pronto.' : "Sent! We'll be in touch shortly.";
+      btn.style.background = '#1D9E75';
+      form.reset();
+    })
+    .catch(() => {
+      btn.textContent = currentLang === 'es' ? '¡Enviado!' : "Sent!";
+      btn.style.background = '#1D9E75';
+    });
+}
+</script>
+
+<!-- LEAD MODAL -->
+<div class="modal-overlay" id="lead-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h2 class="modal-h" id="modal-h">Start your free trial</h2>
+    <p class="modal-sub" id="modal-sub">60 days free. We set everything up. Go live in 24 hours.</p>
+    <form name="modal-leads" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="modal-form" onsubmit="handleModalSubmit(event)">
+      <input type="hidden" name="form-name" value="modal-leads">
+      <input type="hidden" name="plan" id="modal-plan" value="">
+      <p style="display:none"><input name="bot-field"></p>
+      <input type="text" name="hotel" class="modal-input" placeholder="Hotel name *" required>
+      <input type="email" name="email" class="modal-input" placeholder="Your email *" required>
+      <input type="tel" name="whatsapp" class="modal-input" placeholder="Your WhatsApp number *" required>
+      <select name="rooms" class="modal-input" style="cursor:pointer">
+        <option value="">Hotel size (optional)</option>
+        <option>Under 20 rooms</option>
+        <option>20–50 rooms</option>
+        <option>50–150 rooms</option>
+        <option>150+ rooms / Resort</option>
+      </select>
+      <button type="submit" class="modal-btn" id="modal-btn">Get started — it's free</button>
+      <div class="modal-note">No credit card · Cancel anytime · We'll contact you within 24 hours</div>
+    </form>
+    <div class="modal-or">or reach us directly</div>
+    <a href="https://wa.me/13473440786?text=Hola!%20I'm%20interested%20in%20HolaNola%20AI%20for%20my%20hotel." class="modal-wa" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp us directly
+    </a>
+  </div>
+</div>
+
+
+<script>
+(function(){
+
+  // ── CASA COLONIAL — ROOMS ──
+  var ROOMS_LIST = [
+    { id:1, name:"Deluxe Suite Ocean Front", nameES:"Suite Deluxe Frente al Mar", price:420,
+      keywords:["deluxe","ocean front","ocean","oceanfront","1","suite deluxe"] },
+    { id:2, name:"Tropical View Suite",      nameES:"Suite Vista Tropical",       price:320,
+      keywords:["tropical","tropical view","2","garden","jardin"] },
+    { id:3, name:"Penthouse Ocean Front",    nameES:"Penthouse Frente al Mar",    price:650,
+      keywords:["penthouse","3","top","premium"] },
+  ];
+
+  var bookingState = {};
+  var hnBusy = false, hnReady = false;
+
+  // ── LANGUAGE HELPER ──
+  function L(en, es) {
+    return (bookingState.lang === "es") ? es : en;
+  }
+
+  // ── LANGUAGE DETECTION ──
+  function detectLang(text) {
+    // Matches typed Spanish AND Spanish quick-reply chip payloads
+    if (/\b(hola|buenas|habitaci|reserva|disponib|precio|quiero|cuanto|necesito|fechas|gracias|noche|suite|llegada|salida|huespedes|traslado|aeropuerto|restaurantes|horario|disponibilidad|playa dorada|bagua|golf en|cena|desayuno|spa y|spa en|tengo|para|tenemos)\b/i.test(text)) return "es";
+    return "en";
+  }
+
+  // ── PARSE ROOM CHOICE ──
+  // Accepts: "1", "2", "3" OR keywords in EN or ES
+  function parseRoomChoice(text) {
+    var t = text.toLowerCase().trim();
+
+    // Bare digit first — most reliable
+    if (t === "1") return ROOMS_LIST[0];
+    if (t === "2") return ROOMS_LIST[1];
+    if (t === "3") return ROOMS_LIST[2];
+
+    // Keyword scan
+    for (var i = 0; i < ROOMS_LIST.length; i++) {
+      var r = ROOMS_LIST[i];
+      for (var j = 0; j < r.keywords.length; j++) {
+        var kw = r.keywords[j];
+        if (t === kw || new RegExp("\\b" + kw + "\\b").test(t)) return r;
+      }
+    }
+    return null;
+  }
+
+  // ── PARSE GUEST COUNT ──
+  // Accepts: "2", "two", "dos" — ignores date-like patterns
+  function parseGuestCount(text) {
+    // Strip slash-dates like 5/18 to avoid false positives
+    var cleaned = text.replace(/\d{1,2}\/\d{1,2}/g, "");
+    var lower = cleaned.toLowerCase().trim();
+    var words = {
+      one:1, two:2, three:3, four:4, five:5,
+      six:6, seven:7, eight:8, nine:9, ten:10,
+      uno:1, dos:2, tres:3, cuatro:4, cinco:5,
+      seis:6, siete:7, ocho:8, nueve:9, diez:10
+    };
+    for (var w in words) {
+      if (new RegExp("\\b" + w + "\\b").test(lower)) return words[w];
+    }
+    var m = lower.match(/\b([1-9])\b/);
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  // ── CAPTURE ADD-ONS ──
+  function captureConciergeRequests(message) {
+    var l = message.toLowerCase();
+    var addons = [];
+    if (/\b(breakfast|desayuno|veranda)\b/.test(l))            addons.push(L("Breakfast at Veranda","Desayuno en Veranda"));
+    if (/\b(airport|transfer|traslado|aeropuerto|pickup)\b/.test(l)) addons.push(L("Airport transfer","Traslado al aeropuerto"));
+    if (/\b(spa|massage|masaje|bagua|facial)\b/.test(l))       addons.push(L("Bagua Spa treatment","Tratamiento en Bagua Spa"));
+    if (/\b(dinner|cena|lucia)\b/.test(l))                     addons.push(L("Dinner at Lucia","Cena en Lucia"));
+    if (/\b(golf|playa dorada)\b/.test(l))                     addons.push(L("Golf at Playa Dorada","Golf en Playa Dorada"));
+    if (/late.?check.?out|salida tarde/.test(l))               addons.push(L("Late check-out","Salida tarde"));
+    if (/early.?check.?in|llegada temprana/.test(l))           addons.push(L("Early check-in","Llegada temprana"));
+    if (/\b(romantic|romantico|rose|petal|towel|toalla|pillow|almohada)\b/.test(l)) addons.push(L("Special room setup","Decoracion especial"));
+    return addons;
+  }
+
+  // ── BOOKING STATE MACHINE ──
+  function handleBookingWithConcierge(message) {
+    var s = bookingState;
+
+    // Start fresh booking
+    if (!s.step) {
+      var savedLang = s.lang || detectLang(message);
+      Object.keys(s).forEach(function(k){ delete s[k]; });
+      s.lang = savedLang;
+      s.step = "await_checkin";
+      return L(
+        "I would be delighted to assist with your reservation at Casa Colonial Beach & Spa. What is your preferred check-in date?",
+        "Seria un placer ayudarle con su reservacion en Casa Colonial Beach & Spa. Cual es su fecha de llegada?"
+      );
+    }
+
+    switch (s.step) {
+
+      case "await_checkin":
+        s.checkin = message.trim();
+        s.step = "await_checkout";
+        return L(
+          "Wonderful — check-in on " + s.checkin + ". And your check-out date?",
+          "Perfecto — llegada el " + s.checkin + ". Y su fecha de salida?"
+        );
+
+      case "await_checkout":
+        s.checkout = message.trim();
+        delete s.guests;
+        s.step = "await_guests";
+        return L(
+          "Check-out on " + s.checkout + ". How many guests will be staying?",
+          "Salida el " + s.checkout + ". Cuantos huespedes seran?"
+        );
+
+      case "await_guests": {
+        var n = parseGuestCount(message);
+        if (!n) return L(
+          "How many guests will be staying? (e.g. \"2\" or \"two\")",
+          "Cuantos huespedes seran? (ej. \"2\" o \"dos\")"
+        );
+        s.guests = n;
+        s.step = "await_room";
+        var list = ROOMS_LIST.map(function(r){
+          return r.id + ". " + L(r.name, r.nameES) + " \u2014 $" + r.price + L("/night", "/noche");
+        }).join("\n");
+        return L(
+          "For " + n + " guest" + (n!==1?"s":"") + ", our suites:\n\n" + list + "\n\n" +
+          "All suites include private balcony, ocean or garden views, marble bath, and minibar.\n\nReply 1, 2, or 3.",
+          "Para " + n + " huesped" + (n!==1?"es":"") + ", nuestras suites:\n\n" + list + "\n\n" +
+          "Todas incluyen balcon privado, vistas al mar o jardin, bano de marmol y minibar.\n\nResponda 1, 2 o 3."
+        );
+      }
+
+      case "await_room": {
+        var room = parseRoomChoice(message);
+        if (!room) return L(
+          "Please choose 1, 2, or 3 \u2014 or tell me the suite name.",
+          "Por favor elija 1, 2 o 3 \u2014 o indique el nombre de la suite."
+        );
+        s.room = room;
+        s.step = "await_name";
+        return L(
+          "Excellent taste \u2014 the " + room.name + " at $" + room.price + "/night is one of our finest. May I have the name for the reservation?",
+          "Excelente eleccion \u2014 la " + room.nameES + " a $" + room.price + "/noche es una de las mejores. Me comparte su nombre para la reservacion?"
+        );
+      }
+
+      case "await_name":
+        s.guestName = message.trim();
+        s.step = "await_email";
+        return L(
+          "Thank you, " + s.guestName + "! What email address should I send your confirmation to?",
+          "Gracias, " + s.guestName + "! A que correo le envio la confirmacion?"
+        );
+
+      case "await_email":
+        s.email = message.trim();
+        s.step = "await_addons";
+        return L(
+          "Perfect! May I arrange any special touches for your stay?\n\n\u2022 Breakfast at Veranda restaurant\n\u2022 Airport transfer (15 min from POP airport)\n\u2022 Bagua Spa treatment\n\u2022 Dinner at Lucia restaurant\n\u2022 Golf at Playa Dorada Golf Course\n\u2022 Early check-in / Late check-out\n\u2022 Romantic room setup\n\nJust say what you'd like, or \"no thanks\" to confirm.",
+          "Perfecto! Puedo arreglar algo especial para su estadia?\n\n\u2022 Desayuno en el restaurante Veranda\n\u2022 Traslado al aeropuerto (15 min del aeropuerto POP)\n\u2022 Tratamiento en Bagua Spa\n\u2022 Cena en el restaurante Lucia\n\u2022 Golf en Playa Dorada Golf Course\n\u2022 Llegada temprana / Salida tarde\n\u2022 Decoracion romantica\n\nIndique lo que desea o diga \"no gracias\" para confirmar."
+        );
+
+      case "await_addons": {
+        var addons = captureConciergeRequests(message);
+        s.addons = addons;
+        s.step = "complete";
+        s.complete = true;
+        var rName = L(s.room.name, s.room.nameES);
+        var lines = [
+          L("Your reservation is confirmed, ", "Su reservacion esta confirmada, ") + s.guestName + "!\n",
+          L("\u2022 Property:   Casa Colonial Beach & Spa, Puerto Plata", "\u2022 Propiedad:  Casa Colonial Beach & Spa, Puerto Plata"),
+          L("\u2022 Suite:      ", "\u2022 Suite:      ") + rName + " ($" + s.room.price + L("/night","  /noche") + ")",
+          L("\u2022 Check-in:  ", "\u2022 Llegada:    ") + s.checkin,
+          L("\u2022 Check-out: ", "\u2022 Salida:     ") + s.checkout,
+          L("\u2022 Guests:    ", "\u2022 Huespedes:  ") + s.guests,
+        ];
+        if (addons.length) lines.push(L("\u2022 Arranged:  ", "\u2022 Arreglado:  ") + addons.join(", "));
+        lines.push(L("\u2022 Email:     ", "\u2022 Correo:     ") + s.email);
+        lines.push(L(
+          "\nWe look forward to welcoming you to Casa Colonial. Is there anything else I can arrange?",
+          "\nLe esperamos con gusto en Casa Colonial. Hay algo mas que pueda arreglar para su estadia?"
+        ));
+        return lines.join("\n");
+      }
+
+      case "complete": {
+        var addons2 = captureConciergeRequests(message);
+        if (addons2.length) return L(
+          "I have arranged " + addons2.join(", ") + " for your stay. Anything else?",
+          "He arreglado " + addons2.join(", ") + " para su estadia. Algo mas?"
+        );
+        return L(
+          "You are all set! The team at Casa Colonial looks forward to making your stay unforgettable.",
+          "Todo listo! El equipo de Casa Colonial le espera para hacer su estadia inolvidable."
+        );
+      }
+
+      default:
+        return L(
+          "Let's start over. Would you like to make a reservation?",
+          "Empecemos de nuevo. Desea hacer una reservacion?"
+        );
+    }
+  }
+
+  // ── GENERAL HOTEL INFO ──
+  function handleGeneral(message) {
+    var l = message.toLowerCase();
+    if (/hello|hi|hey|hola|buenas/.test(l))
+      return L(
+        "Welcome to Casa Colonial Beach & Spa in Puerto Plata! How can I assist you today?",
+        "Bienvenido a Casa Colonial Beach & Spa en Puerto Plata! En que le puedo ayudar?"
+      );
+    if (/price|rate|cost|how much|precio|cuanto/.test(l))
+      return L(
+        "Our suites:\n\n1. Deluxe Suite Ocean Front \u2014 $420/night\n2. Tropical View Suite \u2014 $320/night\n3. Penthouse Ocean Front \u2014 $650/night\n\nAdults-only boutique resort. Would you like to book?",
+        "Nuestras suites:\n\n1. Suite Deluxe Frente al Mar \u2014 $420/noche\n2. Suite Vista Tropical \u2014 $320/noche\n3. Penthouse Frente al Mar \u2014 $650/noche\n\nResort boutique solo adultos. Desea reservar?"
+      );
+    if (/pool|gym|restaurant|wifi|spa|amenity|bagua|lucia|veranda|piscina|restaur/.test(l))
+      return L(
+        "Casa Colonial features: rooftop infinity pool with 4 hot tubs, Bagua Spa (oceanfront, 12,400 sq ft), Lucia restaurant (Asian cuisine with ocean views), Veranda restaurant (breakfast & lunch), oceanfront gym, private beach, and free Wi-Fi.",
+        "Casa Colonial ofrece: piscina infinity en azotea con 4 jacuzzis, Bagua Spa (oceanico, 12,400 sq ft), restaurante Lucia (cocina asiatica con vistas al mar), restaurante Veranda (desayuno y almuerzo), gimnasio oceanico, playa privada y WiFi gratuito."
+      );
+    if (/check.?in|check.?out|time|hora/.test(l))
+      return L(
+        "Check-in from 3:00 PM, check-out by 12:00 PM. Early check-in and late check-out available on request.",
+        "Check-in a partir de las 3:00 PM, check-out a las 12:00 PM. Llegada temprana y salida tarde disponibles bajo solicitud."
+      );
+    if (/golf/.test(l))
+      return L(
+        "Guests enjoy preferred access to Playa Dorada Golf Course \u2014 designed by Robert Trent Jones Sr., 18 holes, par 72. Shuttle service available from the resort.",
+        "Los huespedes tienen acceso preferencial al Campo de Golf Playa Dorada \u2014 disenado por Robert Trent Jones Sr., 18 hoyos, par 72. Shuttle disponible desde el resort."
+      );
+    if (/transfer|airport|traslado|aeropuerto/.test(l))
+      return L(
+        "Private transfers from Gregorio Luperon International Airport (POP) \u2014 just 15 minutes away. Shall I arrange one for your arrival?",
+        "Traslados privados desde el Aeropuerto Internacional Gregorio Luperon (POP) \u2014 a solo 15 minutos. Le arreglo uno para su llegada?"
+      );
+    if (/wedding|boda|event|evento/.test(l))
+      return L(
+        "Casa Colonial is a stunning venue for intimate weddings and private events. Would you like our events team to contact you?",
+        "Casa Colonial es un escenario increible para bodas intimas y eventos privados. Le gustaria que nuestro equipo de eventos le contacte?"
+      );
+    if (/cancel/.test(l))
+      return L(
+        "To modify or cancel a reservation please contact us at +1-809-320-3232, available 24/7.",
+        "Para modificar o cancelar una reservacion contactenos al +1-809-320-3232, disponible 24/7."
+      );
+    return L(
+      "I can help with suite reservations, Bagua Spa, dining at Lucia or Veranda, golf, airport transfers, or any special arrangements. How can I assist?",
+      "Puedo ayudarle con reservaciones de suites, Bagua Spa, cenas en Lucia o Veranda, golf, traslados o solicitudes especiales. En que le ayudo?"
+    );
+  }
+
+  // ── MAIN ROUTER ──
+  function processMessage(message) {
+    var s = bookingState;
+    if (s.step && s.step !== "complete") return handleBookingWithConcierge(message);
+    if (/\b(book|reserv|room|suite|stay|habitaci|disponib|available|availability|quiero|necesito|disponibilidad|suite availability|check.?in times|horario)\b/i.test(message)) return handleBookingWithConcierge(message);
+    if (s.complete) return handleBookingWithConcierge(message);
+    return handleGeneral(message);
+  }
+
+  // ── DOM HELPERS ──
+  function hnTime(){ return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); }
+
+  function hnAddBot(text){
+    var c=document.getElementById("hn-messages"); if(!c)return;
+    var w=document.createElement("div"); w.style.cssText="display:flex;flex-direction:column;align-items:flex-start;gap:2px";
+    var b=document.createElement("div"); b.style.cssText="max-width:85%;padding:8px 12px;border-radius:4px 12px 12px 12px;font-size:12.5px;line-height:1.58;background:rgba(255,255,255,0.09);color:rgba(255,255,255,0.9);word-break:break-word;white-space:pre-wrap;animation:hnFadeIn 0.22s ease-out";
+    b.textContent=text;
+    var ts=document.createElement("div"); ts.style.cssText="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px"; ts.textContent=hnTime();
+    w.appendChild(b); w.appendChild(ts); c.appendChild(w); c.scrollTo({top:c.scrollHeight,behavior:"smooth"});
+  }
+
+  function hnAddUser(text){
+    var c=document.getElementById("hn-messages"); if(!c)return;
+    var w=document.createElement("div"); w.style.cssText="display:flex;flex-direction:column;align-items:flex-end;gap:2px";
+    var b=document.createElement("div"); b.style.cssText="max-width:85%;padding:8px 12px;border-radius:12px 4px 12px 12px;font-size:12.5px;line-height:1.55;background:#0F6E56;color:white;word-break:break-word;animation:hnFadeIn 0.2s ease-out";
+    b.textContent=text;
+    var ts=document.createElement("div"); ts.style.cssText="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px"; ts.textContent=hnTime()+" done";
+    w.appendChild(b); w.appendChild(ts); c.appendChild(w); c.scrollTo({top:c.scrollHeight,behavior:"smooth"});
+  }
+
+  function hnShowTyping(){
+    var c=document.getElementById("hn-messages"); if(!c||document.getElementById("hn-typ"))return;
+    var d=document.createElement("div"); d.id="hn-typ"; d.style.cssText="display:flex;gap:4px;padding:8px 12px;background:rgba(255,255,255,0.09);border-radius:4px 12px 12px 12px;width:fit-content";
+    for(var i=0;i<3;i++){ var dot=document.createElement("div"); dot.style.cssText="width:7px;height:7px;border-radius:50%;background:rgba(29,158,117,0.7);animation:hnBounce 1.0s "+(i*0.18)+"s infinite ease-in-out"; d.appendChild(dot); }
+    c.appendChild(d); c.scrollTo({top:c.scrollHeight,behavior:"smooth"});
+  }
+
+  function hnHideTyping(){ var e=document.getElementById("hn-typ"); if(e)e.remove(); }
+
+  function hnShowQR(){
+    var q=document.getElementById("hn-qr"); if(!q)return; q.innerHTML="";
+    if(bookingState.step && bookingState.step !== "complete") return;
+    var opts=bookingState.lang==="es"
+      ?[["Disponibilidad","Disponibilidad de suites"],["Check-in","Horario de check-in"],["Bagua Spa","Bagua Spa"],["Traslado","Traslado al aeropuerto"],["Golf","Golf en Playa Dorada"],["Restaurantes","Restaurantes"]]
+      :[["Suite availability","Suite availability"],["Check-in times","Check-in times"],["Bagua Spa","Bagua Spa"],["Airport transfer","Airport transfer"],["Golf","Golf at Playa Dorada"],["Restaurants","Restaurants"]];
+    opts.forEach(function(o){
+      var b=document.createElement("button"); b.textContent=o[0]; b.type="button";
+      b.style.cssText="padding:6px 13px;border-radius:16px;border:1px solid rgba(29,158,117,0.4);background:rgba(29,158,117,0.08);color:#1D9E75;font-size:11.5px;cursor:pointer;font-family:inherit;margin:2px 2px 2px 0;transition:all .15s";
+      b.addEventListener("mouseenter",function(){this.style.background="rgba(29,158,117,0.25)";this.style.borderColor="rgba(29,158,117,0.7)";});
+      b.addEventListener("mouseleave",function(){this.style.background="rgba(29,158,117,0.08)";this.style.borderColor="rgba(29,158,117,0.4)";});
+      b.addEventListener("click",function(){ window.hnSend(o[1]); });
+      q.appendChild(b);
+    });
+  }
+
+  // ── SEND ──
+  window.hnSend = function(prefill) {
+    var inp=document.getElementById("hn-input");
+    var btn=document.getElementById("hn-send");
+    var text=(prefill||inp.value).trim();
+    if(!text||hnBusy)return;
+    if(!prefill) inp.value="";
+    document.getElementById("hn-qr").innerHTML="";
+    hnAddUser(text);
+    hnBusy=true;
+    if(btn){btn.disabled=true;btn.style.opacity="0.45";}
+    if(inp){inp.disabled=true;inp.style.opacity="0.6";inp.placeholder=bookingState.lang==="es"?"Pensando...":"Thinking...";}
+    hnShowTyping();
+    setTimeout(function(){
+      hnHideTyping();
+      if(!bookingState.lang) bookingState.lang=detectLang(text);
+      var reply=processMessage(text);
+      hnAddBot(reply);
+      hnBusy=false;
+      if(btn){btn.disabled=false;btn.style.opacity="1";}
+      if(inp){inp.disabled=false;inp.style.opacity="1";inp.placeholder=bookingState.lang==="es"?"Escribe un mensaje...":"Type a message...";inp.focus();}
+      hnShowQR();
+    }, 380);
+  };
+
+  window.hnQuick=function(t){ window.hnSend(t); };
+
+  window.hnResetDemo=function(lang){
+    Object.keys(bookingState).forEach(function(k){delete bookingState[k];});
+    bookingState.lang=lang;
+    var msgs=document.getElementById("hn-messages"); if(msgs)msgs.innerHTML="";
+    var inp=document.getElementById("hn-input");
+    if(inp){inp.value="";inp.placeholder=lang==="es"?"Escribe un mensaje...":"Type a message...";}
+    hnAddBot(lang==="es"
+      ?"Bienvenido a Casa Colonial Beach & Spa en Puerto Plata. Soy su conserje virtual y estoy aqui para asistirle las 24 horas del dia.\n\nEn que puedo ayudarle hoy?"
+      :"Welcome to Casa Colonial Beach & Spa in Puerto Plata! I am your AI concierge, here to assist you 24 hours a day.\n\nHow can I help you today?");
+    hnShowQR();
+    if(inp)setTimeout(function(){inp.focus();},100);
+  };
+
+  window.openModal=window.openModal||function(){var s=document.getElementById("lead-modal");if(s)s.classList.add("open");};
+  window.closeModal=window.closeModal||function(){var s=document.getElementById("lead-modal");if(s)s.classList.remove("open");};
+  window.handleModalSubmit=window.handleModalSubmit||function(e){if(e)e.preventDefault();};
+
+  // ── INIT ──
+  function hnInit(){
+    var inp=document.getElementById("hn-input");
+    var btn=document.getElementById("hn-send");
+    var msgs=document.getElementById("hn-messages");
+    if(!inp||!btn||!msgs){console.error("[CasaColonial] missing elements");return;}
+    if(hnReady)return; hnReady=true;
+    inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();window.hnSend();}});
+    btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();window.hnSend();});
+    console.log("[CasaColonial] ready");
+  }
+
+  var sty=document.createElement("style");
+  sty.textContent="@keyframes hnBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}} @keyframes hnFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}";
+  document.head.appendChild(sty);
+
+  window.addEventListener("load",hnInit);
+  if(document.readyState==="complete") hnInit();
+
+})();
+
+</script>
+</body>
+</html>
